@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+/usr/local/bin/consul-template -vault-addr="$VAULT_ADDR" \
+  -vault-token="$VAULT_TOKEN" \
+  -consul-addr="$CONSUL_ADDRESS" \
+  -template "/app/consul_template/pki.json.ctmpl:/app/consul-template/output/pki.json:/app/scripts/process_pki_json.rb /app/consul-template/output/pki.json"
+

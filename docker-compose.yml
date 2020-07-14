@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+
+  vault:
+    image: vault:1.4.3
+    ports:
+      - 8200:8200
+    command: server -dev -dev-root-token-id="root"
+    cap_add:
+      - IPC_LOCK
+
+  consul:
+    image: consul:1.8.0
+    ports:
+      - 8500:8500
+    command: agent -dev -ui -bind=0.0.0.0 -client=0.0.0.0
+
+  consul_template:
+    image: joycse06/consul-template-with-ruby:v1.0.0 
+    volumes:
+      - ./consul-template/output:/app/consul-template/output

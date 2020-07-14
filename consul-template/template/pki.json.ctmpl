@@ -1,0 +1,32 @@
+{{- $consul_key := or (env "PKI_CONSUL_ROOT_KEY") "pki/root" -}}
+{{- $ttl_from_env := or (env "PKI_TTL") "72h" -}}
+{{- $ttl_param := printf "ttl=%s" $ttl_from_env -}}
+{{- $common_name_from_env := or (env "PKI_COMMON_NAME") "client.pki.example.com" -}}
+{{- $common_name_param := printf "common_name=%s" $common_name_from_env -}}
+{{- $certificate_issue_role := or (env "PKI_CERTIFICATE_ISSUE_ROLE") "issuer" -}}
+
+{{- with $d := key $consul_key | parseJSON -}}
+  {{- if $d.primary_issuer -}}
+    {{- $pki_issuer := $d.primary_issuer -}}
+    {{- $pki_path := printf "%s/issue/%s" $pki_issuer $certificate_issue_role -}}
+    {{- with secret $pki_path $common_name_param $ttl_param -}}
+{
+  "primary": {
+    "path": "{{ $pki_issuer }}",
+    "certificate_details": {{- .Data | toJSONPretty }}
+  },
+  "secondary": [
+  {{- range $secondary_path := $d.secondary_issuers -}}
+    {
+      "path": "{{ $secondary_path }}",
+      {{- $path := printf "%s/cert/ca" $secondary_path -}}
+      {{- with secret $path }}
+      "ca_details": {{- .Data | toJSONPretty }}
+      {{- end -}}
+    }
+  {{- end -}}
+  ]
+}
+{{- end -}}
+{{- end -}}
+{{- end }}
