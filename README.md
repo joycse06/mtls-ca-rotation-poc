@@ -41,6 +41,6 @@ the required version of terraform.
    
    
 
-You can at this point follow the demo from the talk to introduce a new root (Root B), then swap the roots while inspecting the logs of consul-template to verify it's following along the changes in the consul key.
+You can at this point follow the demo from the talk to introduce a new root (Root B), then swap the roots while inspecting the logs of `consul-template` to verify it's following along the changes in the `consul` key.
 
 Feel free to raise PRs or issues if you have questions/comments/anything to add.
