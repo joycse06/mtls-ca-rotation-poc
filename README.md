@@ -33,6 +33,7 @@ the required version of terraform.
 2. Initialise the terraform project and apply with the following:
 
    ```
+   cd terraform
    terraform init
    terraform apply
    ```
@@ -41,6 +42,40 @@ the required version of terraform.
    
    
 
-You can at this point follow the demo from the talk to introduce a new root (Root B), then swap the roots while inspecting the logs of `consul-template` to verify it's following along the changes in the `consul` key.
+You can at this point follow the demo from the talk to introduce a new root (Root B), then swap the roots while inspecting the logs of `consul-template` to verify it's following along the changes in the `consul` key. Or you can also continue following along.
+
+3. Introduce new root (`Root B`)
+  I have added the necessary code for adding a new root, so you can just do the following
+
+  ```
+  git checkout introduce-new-root-b
+  terraform apply # type yes when prompted
+  ```
+  
+  As soon as you press enter, you should notice consul-template regenerating certificates on the logs.
+
+4. Now to we can swap the roots using the following commands
+
+  ```
+  git checkout swap-roots
+  terraform apply # type yes when prompted
+  ```
+
+  You will see consul-template regenerating the service certificate from new root, Root B.
+
+5. Now we can remove the old root from the list of secondary issuers.
+  
+  ```
+  git checkout remove-old-root-from-secondary-issuers
+  terraform apply # type yes when prompted
+  ```
+
+  
+6. We can also now remove root-a from vault
+
+  ```
+  git checkout remove-old-root-from-vault
+  terraform apply # type yes when prompted
+  ```
 
 Feel free to raise PRs or issues if you have questions/comments/anything to add.
