@@ -1,11 +1,3 @@
-module "pki_root_a" {
-  source         = "./modules/pki_root"
-  path           = "pki/root-a"
-  common_name    = "Root A"
-  vault_root_url = "${var.vault_root_url}"
-  issuer_role_name    = "issuer"
-}
-
 module "pki_root_b" {
   source         = "./modules/pki_root"
   path           = "pki/root-b"
