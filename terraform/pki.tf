@@ -6,6 +6,14 @@ module "pki_root_a" {
   issuer_role_name    = "issuer"
 }
 
+module "pki_root_b" {
+  source         = "./modules/pki_root"
+  path           = "pki/root-b"
+  common_name    = "Root B"
+  vault_root_url = "${var.vault_root_url}"
+  issuer_role_name    = "issuer"
+}
+
 # Consul Key
 
 resource "consul_keys" "root" {
@@ -14,7 +22,7 @@ resource "consul_keys" "root" {
     value = <<-EOT
     {
       "primary_issuer": "${module.pki_root_a.backend_path}",
-      "secondary_issuers": []
+      "secondary_issuers": [${module.pki_root_b.backend_path}]
     }
     EOT
   }
