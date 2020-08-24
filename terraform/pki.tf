@@ -22,7 +22,7 @@ resource "consul_keys" "root" {
     value = <<-EOT
     {
       "primary_issuer": "${module.pki_root_b.backend_path}",
-      "secondary_issuers": [${module.pki_root_a.backend_path}]
+      "secondary_issuers": []
     }
     EOT
   }
