@@ -11,8 +11,4 @@ variable "root_ca_cn_prefix" {
 variable "vault_root_url" {
   description = "The vault root url (Used to construct the issuer and crl url to put into certificate attributes)."
 }
-variable "cert_key_bits" {
-  default     = 2048
-  description = "The size of the generate keys."
-}
 
